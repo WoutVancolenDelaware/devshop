@@ -8,8 +8,6 @@ using { Country, managed } from '@sap/cds/common';
     Age  : Integer;
     ProgLanguage: String;
     Company: Association to Companies;
-    country : Country;
-
   }
 
   entity Companies {

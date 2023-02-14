@@ -1,0 +1,11 @@
+
+GET http://localhost:4004/catalog/Developers?
+################################################
+GET http://localhost:4004/catalog/Developers(1)
+################################################
+POST http://localhost:4004/catalog/Developers
+Content-Type: application/json
+
+{"ID": 5, "FirstName": "Filliberke"}
+
+
