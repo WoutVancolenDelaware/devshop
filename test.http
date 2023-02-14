@@ -6,6 +6,11 @@ GET http://localhost:4004/catalog/Developers(1)
 POST http://localhost:4004/catalog/Developers
 Content-Type: application/json
 
-{"ID": 5, "FirstName": "Filliberke"}
-
-
+{
+  "ID": 11,
+  "FirstName": "Filliberke",
+  "LastName": "Vancolen",
+  "Age": 17,
+  "ProgLanguage": "JAVA",
+  "Company_ID": null
+}
