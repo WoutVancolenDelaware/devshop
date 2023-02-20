@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+        <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Developers" EntityType="CatalogService.Developers">
+                    <NavigationPropertyBinding Path="Company" Target="Companies"/>
+                    <NavigationPropertyBinding Path="texts" Target="Developers_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Developers_texts"/>
+                </EntitySet>
+                <EntitySet Name="Companies" EntityType="CatalogService.Companies">
+                    <NavigationPropertyBinding Path="developers" Target="Developers"/>
+                </EntitySet>
+                <EntitySet Name="Developers_texts" EntityType="CatalogService.Developers_texts"/>
+            </EntityContainer>
+            <EntityType Name="Developers">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="FirstName" Type="Edm.String"/>
+                <Property Name="LastName" Type="Edm.String"/>
+                <Property Name="Age" Type="Edm.Int32"/>
+                <Property Name="ProgLanguage" Type="Edm.String"/>
+                <NavigationProperty Name="Company" Type="CatalogService.Companies" Partner="developers">
+                    <ReferentialConstraint Property="Company_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="Company_ID" Type="Edm.Int32"/>
+                <NavigationProperty Name="texts" Type="Collection(CatalogService.Developers_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="CatalogService.Developers_texts">
+                    <ReferentialConstraint Property="ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Companies">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="name" Type="Edm.String"/>
+                <NavigationProperty Name="developers" Type="Collection(CatalogService.Developers)" Partner="Company"/>
+            </EntityType>
+            <EntityType Name="Developers_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="FirstName" Type="Edm.String"/>
+            </EntityType>
+            <Annotations Target="CatalogService.EntityContainer/Companies">
+                <Annotation Term="Capabilities.DeleteRestrictions">
+                    <Record Type="Capabilities.DeleteRestrictionsType">
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.InsertRestrictions">
+                    <Record Type="Capabilities.InsertRestrictionsType">
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Capabilities.UpdateRestrictions">
+                    <Record Type="Capabilities.UpdateRestrictionsType">
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="CatalogService.Developers_texts/locale">
+                <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
+                </Annotations>
+            </Schema>
+        </edmx:DataServices>
+    </edmx:Edmx>

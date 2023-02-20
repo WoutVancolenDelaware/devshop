@@ -1,0 +1,4 @@
+specVersion: "2.5"
+metadata:
+  name: com.delaware.companies
+type: application
